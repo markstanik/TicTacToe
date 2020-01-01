@@ -1,9 +1,15 @@
 package com.example.tictactoe
 
+import android.content.Context
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.TransitionManager
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -87,7 +93,33 @@ class MainActivity : AppCompatActivity() {
 
     }
         private fun endGame(winCheck:ArrayList<ArrayList<Int>>){
-            if(checkWin(winCheck) == -1) println("Player 1 wins")
+            if(checkWin(winCheck) == -1){
+                println("Player 1 wins")
+                val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+                // Inflate a custom view using layout inflater
+                val view = inflater.inflate(R.layout.winner_pop_up,null)
+
+                // Initialize a new instance of popup window
+                val popupWindow = PopupWindow(
+                    view, // Custom view to show in popup window
+                    LinearLayout.LayoutParams.WRAP_CONTENT, // Width of popup window
+                    LinearLayout.LayoutParams.WRAP_CONTENT // Window height
+                )
+                val buttonPopup = view.findViewById<Button>(R.id.button_popup)
+                buttonPopup.setOnClickListener{
+                    // Dismiss the popup window
+                    popupWindow.dismiss()
+                }
+                TransitionManager.beginDelayedTransition(root_layout)
+                popupWindow.showAtLocation(
+                    root_layout, // Location to display popup window
+                    Gravity.CENTER, // Exact position of layout to display popup
+                    0, // X offset
+                    0 // Y offset
+                )
+
+            }
             if(checkWin(winCheck) == 1) println("Player 2 wins")
         }
         private fun checkWin(winCheck: ArrayList<ArrayList<Int>>): Int {
