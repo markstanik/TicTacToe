@@ -8,17 +8,23 @@
         android:background="#c7bf98"
         android:padding="20dp"
         >
+
     <TextView
             android:id="@+id/text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You Win!"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            />
+            android:text="hello"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
     <Button
             android:id="@+id/button_popup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Close Me"
-            />
+            android:text="Close Me" />
+
+    <Button
+            android:id="@+id/button_replay"
+            android:layout_width="119dp"
+            android:layout_height="wrap_content"
+            android:text="Play Again?" />
 </LinearLayout>

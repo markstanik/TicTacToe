@@ -5,11 +5,13 @@ import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -95,6 +97,8 @@ class MainActivity : AppCompatActivity() {
         private fun endGame(winCheck:ArrayList<ArrayList<Int>>){
             if(checkWin(winCheck) == -1){
                 println("Player 1 wins")
+
+
                 val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
                 // Inflate a custom view using layout inflater
@@ -111,16 +115,52 @@ class MainActivity : AppCompatActivity() {
                     // Dismiss the popup window
                     popupWindow.dismiss()
                 }
-                TransitionManager.beginDelayedTransition(root_layout)
+                var text:TextView = view.findViewById(R.id.text_view)
+                text.setText("Player 1 wins!")
+                //text.text = resources.getString(R.string.app_name)
+
+                TransitionManager.beginDelayedTransition(constraintlayout)
                 popupWindow.showAtLocation(
-                    root_layout, // Location to display popup window
+                    constraintlayout, // Location to dis play popup window
                     Gravity.CENTER, // Exact position of layout to display popup
                     0, // X offset
                     0 // Y offset
                 )
 
             }
-            if(checkWin(winCheck) == 1) println("Player 2 wins")
+            if(checkWin(winCheck) == 1){
+
+                val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+                // Inflate a custom view using layout inflater
+                val view = inflater.inflate(R.layout.winner_pop_up,null)
+
+                // Initialize a new instance of popup window
+                val popupWindow = PopupWindow(
+                    view, // Custom view to show in popup window
+                    LinearLayout.LayoutParams.WRAP_CONTENT, // Width of popup window
+                    LinearLayout.LayoutParams.WRAP_CONTENT // Window height
+                )
+                val buttonPopup = view.findViewById<Button>(R.id.button_popup)
+                buttonPopup.setOnClickListener{
+                    // Dismiss the popup window
+                    popupWindow.dismiss()
+                }
+                val replay = view.findViewById<Button>(R.id.button_replay)
+                replay.setOnClickListener{
+
+                    popupWindow.dismiss()
+                }
+                var text:TextView = view.findViewById(R.id.text_view)
+                text.setText("Player 2 wins!")
+                TransitionManager.beginDelayedTransition(constraintlayout)
+                popupWindow.showAtLocation(
+                    constraintlayout, // Location to dis play popup window
+                    Gravity.CENTER, // Exact position of layout to display popup
+                    0, // X offset
+                    0 // Y offset
+                )
+            }
         }
         private fun checkWin(winCheck: ArrayList<ArrayList<Int>>): Int {
             for (i in 0..2) { //check the rows and columns
