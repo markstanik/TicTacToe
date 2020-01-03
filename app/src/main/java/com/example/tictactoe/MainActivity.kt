@@ -1,6 +1,7 @@
 package com.example.tictactoe
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.winner_pop_up.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,69 +35,134 @@ class MainActivity : AppCompatActivity() {
 
             if (turnCounter % 2 == 0) winCheck[0][0] = -1
             else winCheck[0][0] = 1
-            endGame(winCheck)
+            if(endGame(winCheck)){
+                winCheck = arrayListOf(
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0)
+                )
+
+            }
             turnCounter++
         }
         topMid.setOnClickListener {
             changeColor(turnCounter, topMid)
             if (turnCounter % 2 == 0) winCheck[0][1] = -1
             else winCheck[0][1] = 1
-            endGame(winCheck)
+            if(endGame(winCheck)){
+                winCheck = arrayListOf(
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0)
+                )
+
+            }
             turnCounter++
         }
         topRight.setOnClickListener {
             changeColor(turnCounter, topRight)
             if (turnCounter % 2 == 0) winCheck[0][2] = -1
             else winCheck[0][2] = 1
-            endGame(winCheck)
+            if(endGame(winCheck)){
+                winCheck = arrayListOf(
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0)
+                )
+
+            }
+
             turnCounter++
         }
         midLeft.setOnClickListener {
             changeColor(turnCounter, midLeft)
             if (turnCounter % 2 == 0) winCheck[1][0] = -1
             else winCheck[1][0] = 1
-            endGame(winCheck)
+            if(endGame(winCheck)){
+                winCheck = arrayListOf(
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0)
+                )
+
+            }
             turnCounter++
         }
         midMid.setOnClickListener {
             changeColor(turnCounter, midMid)
             if (turnCounter % 2 == 0) winCheck[1][1] = -1
             else winCheck[1][1] = 1
-            endGame(winCheck)
+            if(endGame(winCheck)){
+                winCheck = arrayListOf(
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0)
+                )
+
+            }
             turnCounter++
         }
         midRight.setOnClickListener {
             changeColor(turnCounter, midRight)
             if (turnCounter % 2 == 0) winCheck[1][2] = -1
             else winCheck[1][2] = 1
-            endGame(winCheck)
+            if(endGame(winCheck)){
+                winCheck = arrayListOf(
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0)
+                )
+
+            }
             turnCounter++
         }
         botLeft.setOnClickListener {
             changeColor(turnCounter, botLeft)
             if (turnCounter % 2 == 0) winCheck[2][0] = -1
             else winCheck[2][0] = 1
-            endGame(winCheck)
+            if(endGame(winCheck)){
+                winCheck = arrayListOf(
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0)
+                )
+
+            }
             turnCounter++
         }
         botMid.setOnClickListener {
             changeColor(turnCounter, botMid)
             if (turnCounter % 2 == 0) winCheck[2][1] = -1
             else winCheck[2][1] = 1
-            endGame(winCheck)
+            if(endGame(winCheck)){
+                winCheck = arrayListOf(
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0)
+                )
+
+            }
             turnCounter++
         }
         botRight.setOnClickListener {
             changeColor(turnCounter, botRight)
             if (turnCounter % 2 == 0) winCheck[2][2] = -1
             else winCheck[2][2] = 1
-            endGame(winCheck)
+            if(endGame(winCheck)){
+                winCheck = arrayListOf(
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0),
+                    arrayListOf(0, 0, 0)
+                )
+
+            }
             turnCounter++
         }
 
     }
 
-    private fun endGame(winCheck: ArrayList<ArrayList<Int>>) {
+    private fun endGame(winCheck: ArrayList<ArrayList<Int>>) :Boolean {
+        var newGame = false
         if (checkWin(winCheck) == -1 || checkWin(winCheck) == 1) {
             val inflater: LayoutInflater =
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -118,16 +185,30 @@ class MainActivity : AppCompatActivity() {
             if (checkWin(winCheck) == -1) text.setText("Player 1 wins!")
             if (checkWin(winCheck) == 1) text.setText("Player 2 wins!")
             //text.text = resources.getString(R.string.app_name)
+            val replay = view.findViewById<Button>(R.id.button_replay)
+            replay.setOnClickListener{
+                popupWindow.dismiss()
+                topLeft.setBackgroundResource(android.R.drawable.btn_default)
+                topMid.setBackgroundResource(android.R.drawable.btn_default)
+                topRight.setBackgroundResource(android.R.drawable.btn_default)
+                midLeft.setBackgroundResource(android.R.drawable.btn_default)
+                midMid.setBackgroundResource(android.R.drawable.btn_default)
+                midRight.setBackgroundResource(android.R.drawable.btn_default)
+                botLeft.setBackgroundResource(android.R.drawable.btn_default)
+                botMid.setBackgroundResource(android.R.drawable.btn_default)
+                botRight.setBackgroundResource(android.R.drawable.btn_default)
+                newGame = true
 
+            }
             TransitionManager.beginDelayedTransition(constraintlayout)
             popupWindow.showAtLocation(
-                constraintlayout, // Location to dis play popup window
+                constraintlayout, // Location to display popup window
                 Gravity.CENTER, // Exact position of layout to display popup
                 0, // X offset
                 0 // Y offset
             )
-
         }
+        return newGame
     }
 
 
